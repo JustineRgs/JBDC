@@ -21,15 +21,6 @@ public class TestConnexionJdbc {
 	public static void main(String[] args) throws SQLException {
 		try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PWD)) {
 			Statement st = connection.createStatement();
-
-			int nb = st.executeUpdate("INSERT INTO FOURNISSEUR(NOM) VALUES('DIGI')");
-			System.out.println("Nmbre d'élément crée : " + nb);
-
-			int nbUpdate = st.executeUpdate("UPDATE FOURNISSEUR SET NOM = 'DIGINAMIC' WHERE id_fournisseur = 4");
-			System.out.println("Nmbre d'élément modifié : " + nbUpdate);
-
-			int nbDelete = st.executeUpdate("DELETE FROM FOURNISSEUR WHERE NOM = 'DIGINAMIC'");
-			System.out.println("Nmbre d'élément supprimé : " + nbDelete);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

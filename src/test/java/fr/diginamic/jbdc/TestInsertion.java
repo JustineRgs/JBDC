@@ -19,12 +19,23 @@ public class TestInsertion {
 	};
 
 	public static void main(String[] args) throws SQLException {
-		try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PWD)) {
-			Statement st = connection.createStatement();
+		Connection connection = null;
+		Statement st = null;
+
+		try {
+			connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PWD);
+			st = connection.createStatement();
 			int newFournisseur = st.executeUpdate("INSERT INTO FOURNISSEUR(NOM) VALUES('La Maison de la Peinture')");
-			System.out.println("Nmbre d'élément crée : " + newFournisseur);
+			System.out.println("Nombre d'éléments créés : " + newFournisseur);
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			if (st != null) {
+				st.close();
+			}
+			if (connection != null) {
+				connection.close();
+			}
 		}
 	}
 }

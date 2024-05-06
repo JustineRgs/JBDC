@@ -25,10 +25,14 @@ public class TestSelect {
 
 	public static void main(String[] args) {
 		List<Fournisseur> fournisseurs = new ArrayList<>();
+		Connection connection = null;
+		Statement st = null;
+		ResultSet resultSet = null;
 
-		try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PWD)) {
-			Statement st = connection.createStatement();
-			ResultSet resultSet = st.executeQuery("SELECT * FROM FOURNISSEUR");
+		try {
+			connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PWD);
+			st = connection.createStatement();
+			resultSet = st.executeQuery("SELECT * FROM FOURNISSEUR");
 
 			while (resultSet.next()) {
 				int id = resultSet.getInt("ID");
@@ -42,6 +46,20 @@ public class TestSelect {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			try {
+				if (resultSet != null) {
+					resultSet.close();
+				}
+				if (st != null) {
+					st.close();
+				}
+				if (connection != null) {
+					connection.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 }

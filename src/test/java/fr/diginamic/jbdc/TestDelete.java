@@ -19,12 +19,22 @@ public class TestDelete {
 	};
 
 	public static void main(String[] args) throws SQLException {
-		try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PWD)) {
-			Statement st = connection.createStatement();
+		Connection connection = null;
+		Statement st = null;
+		try {
+			connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PWD);
+			st = connection.createStatement();
 			int deleteFournisseur = st.executeUpdate("DELETE FROM FOURNISSEUR WHERE NOM = 'La Maison des Peintures'");
-			System.out.println("Nmbre d'élément supprimé : " + deleteFournisseur);
+			System.out.println("Nombre d'éléments supprimés : " + deleteFournisseur);
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			if (st != null) {
+				st.close();
+			}
+			if (connection != null) {
+				connection.close();
+			}
 		}
 	}
 }
