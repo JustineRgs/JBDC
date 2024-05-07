@@ -72,7 +72,21 @@ public class TestDaoJdbc {
 			}
 			System.out.println();
 			System.out.println(
-					"L'insertion 'L’Espace Création' fonctionne bien parce que j'ai préparé ma requète avec PreparedStatement :P");
+					"L'insertion 'L’Espace Création' fonctionne mais ne devrait pas car je n'ai pas utilisé de requète preparé pour échaper l'apostrophe");
+
+			FournisseurDaoJdbc2 fournisseurDao2 = new FournisseurDaoJdbc2(connection);
+
+			// Test insert
+			fournisseurDao2.insert(fournisseurTest);
+
+			// Read
+			fournisseurs = fournisseurDao.extraire();
+			System.out.println("Liste des fournisseurs après TEST INSERT :");
+			for (Fournisseur f : fournisseurs) {
+				System.out.println(f.getId() + " - " + f.getNom());
+			}
+			System.out.println();
+			System.out.println("Maintenant ça fonctionnera à tout les coups grâce au prepareStatement");
 
 			connection.close();
 		} catch (SQLException e) {
